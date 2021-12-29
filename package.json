@@ -1,5 +1,8 @@
 {
   "main": "index.js",
+  "private": true,
+  "name": "gofinances",
+  "version": "1.0.0",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -32,8 +35,5 @@
     "@types/react-native": "~0.64.12",
     "@types/styled-components-react-native": "^5.1.3",
     "typescript": "~4.3.5"
-  },
-  "private": true,
-  "name": "gofinances",
-  "version": "1.0.0"
+  }
 }

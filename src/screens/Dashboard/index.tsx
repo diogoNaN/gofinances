@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Container,
@@ -21,6 +21,7 @@ import {
   TransactionCard,
   TransactionCardDataProps,
 } from "../../components/TransactionCard";
+import { StatusBar } from "react-native";
 
 export interface DataProps extends TransactionCardDataProps {
   id: string;
@@ -65,6 +66,7 @@ export const Dashboard: React.FC = () => {
 
   return (
     <Container>
+      <StatusBar animated translucent barStyle={"light-content"} />
       <Header>
         <HeaderWrapper>
           <UserData>

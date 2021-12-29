@@ -1,10 +1,29 @@
-import React from "react";
-import { Buttom } from "../../components/Form/Buttom";
+import React, { useCallback, useState } from "react";
+import { Button } from "../../components/Form/Button";
 import { Input } from "../../components/Form/Input";
+import { TransactionTypeButton } from "../../components/Form/TransactionTypeButton";
 
-import { Container, Header, Title, Form, Fields } from "./styles";
+import {
+  Container,
+  Header,
+  Title,
+  Form,
+  Fields,
+  TransactionType,
+} from "./styles";
 
 export const Register: React.FC = () => {
+  const [transactionType, setTransactionType] = useState<
+    "income" | "outcome"
+  >();
+
+  const handlePressTransactionTypeSelect = useCallback(
+    (type: "income" | "outcome") => {
+      setTransactionType(type);
+    },
+    []
+  );
+
   return (
     <Container>
       <Header>
@@ -16,9 +35,25 @@ export const Register: React.FC = () => {
           <Input placeholder="Nome" />
 
           <Input placeholder="Preço" />
+
+          <TransactionType>
+            <TransactionTypeButton
+              title="Income"
+              type="income"
+              selected={transactionType === "income"}
+              onPress={() => handlePressTransactionTypeSelect("income")}
+            />
+
+            <TransactionTypeButton
+              title="Outcome"
+              type="outcome"
+              selected={transactionType === "outcome"}
+              onPress={() => handlePressTransactionTypeSelect("outcome")}
+            />
+          </TransactionType>
         </Fields>
 
-        <Buttom title="Enviar" />
+        <Button title="Enviar" />
       </Form>
     </Container>
   );

@@ -28,3 +28,7 @@ export const Form = styled.View`
 
   padding: 24px;
 `;
+
+export const Fields = styled.View`
+  flex: 1;
+`;

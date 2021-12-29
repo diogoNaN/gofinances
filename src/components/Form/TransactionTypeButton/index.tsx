@@ -25,7 +25,7 @@ export const TransactionTypeButton: React.FC<Props> = ({
   return (
     <Container type={type} selected={selected} {...rest}>
       <Icon name={icons[type]} type={type} />
-      <Title>{title}</Title>
+      <Title selected={selected}>{title}</Title>
     </Container>
   );
 };

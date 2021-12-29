@@ -14,6 +14,10 @@ type IconProps = {
   type: TransactionTypes;
 };
 
+type TextProps = {
+  selected: boolean;
+};
+
 export const Container = styled(TouchableOpacity)<ContainerProps>`
   width: 48%;
 
@@ -51,8 +55,9 @@ export const Icon = styled(Feather)<IconProps>`
     type === "income" ? theme.colors.success : theme.colors.attention};
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<TextProps>`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(14)}px;
-  color: ${({ theme }) => theme.colors.title};
+  color: ${({ theme, selected }) =>
+    selected ? theme.colors.title : theme.colors.text};
 `;

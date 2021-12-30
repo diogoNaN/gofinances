@@ -1,8 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Button } from "../../components/Form/Button";
-import { CategorySelect } from "../../components/Form/CategorySelect";
-import { Input } from "../../components/Form/Input";
-import { TransactionTypeButton } from "../../components/Form/TransactionTypeButton";
+import { Modal, StatusBar } from "react-native";
 
 import {
   Container,
@@ -13,7 +10,16 @@ import {
   TransactionType,
 } from "./styles";
 
+import { CategorySelect, Category } from "../CategorySelect";
+
+import { Input } from "../../components/Form/Input";
+import { Button } from "../../components/Form/Button";
+import { CategorySelectButton } from "../../components/Form/CategorySelectButton";
+import { TransactionTypeButton } from "../../components/Form/TransactionTypeButton";
+
 export const Register: React.FC = () => {
+  const [showCategoriesModal, setShowCategoriesModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [transactionType, setTransactionType] = useState<
     "income" | "outcome"
   >();
@@ -25,8 +31,18 @@ export const Register: React.FC = () => {
     []
   );
 
+  const handleOpenCategoriesModal = useCallback(() => {
+    setShowCategoriesModal(true);
+  }, []);
+
+  const handleCloseCategoriesModal = useCallback(() => {
+    setShowCategoriesModal(false);
+  }, []);
+
   return (
     <Container>
+      <StatusBar animated translucent barStyle={"light-content"} />
+
       <Header>
         <Title>Cadastro</Title>
       </Header>
@@ -53,11 +69,27 @@ export const Register: React.FC = () => {
             />
           </TransactionType>
 
-          <CategorySelect title={"Categoria"} />
+          <CategorySelectButton
+            isSelected={!!selectedCategory}
+            title={selectedCategory ? selectedCategory.name : "Categoria"}
+            onPress={handleOpenCategoriesModal}
+          />
         </Fields>
 
         <Button title="Enviar" />
       </Form>
+
+      <Modal
+        statusBarTranslucent
+        visible={showCategoriesModal}
+        animationType="slide"
+      >
+        <CategorySelect
+          selected={selectedCategory ? selectedCategory : undefined}
+          onChange={setSelectedCategory}
+          onClose={handleCloseCategoriesModal}
+        />
+      </Modal>
     </Container>
   );
 };

@@ -67,6 +67,7 @@ export const Dashboard: React.FC = () => {
   return (
     <Container>
       <StatusBar animated translucent barStyle={"light-content"} />
+
       <Header>
         <HeaderWrapper>
           <UserData>

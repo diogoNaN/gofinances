@@ -1,8 +1,13 @@
 import styled from "styled-components/native";
+import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
 
-export const Container = styled.TouchableOpacity.attrs({
+type CategoryProps = {
+  isSelected: boolean;
+};
+
+export const Container = styled(TouchableOpacity).attrs<TouchableOpacityProps>({
   activeOpacity: 0.7,
 })`
   flex-direction: row;
@@ -15,19 +20,14 @@ export const Container = styled.TouchableOpacity.attrs({
   padding: 18px 16px;
 `;
 
-export const Category = styled.Text`
+export const Category = styled.Text<CategoryProps>`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(14)}px;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme, isSelected }) =>
+    isSelected ? theme.colors.text_dark : theme.colors.text};
 `;
 
 export const Icon = styled(Feather)`
   font-size: ${RFValue(20)}px;
   color: ${({ theme }) => theme.colors.text};
-`;
-
-export const Title = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(14)}px;
-  color: ${({ theme }) => theme.colors.title};
 `;

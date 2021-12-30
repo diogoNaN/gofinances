@@ -16,12 +16,9 @@ type Props = TouchableOpacityProps & {
   selected: boolean;
 };
 
-export const TransactionTypeButton: React.FC<Props> = ({
-  type,
-  title,
-  selected,
-  ...rest
-}) => {
+export const TransactionTypeButton: React.FC<Props> = (props) => {
+  const { type, title, selected, ...rest } = props;
+
   return (
     <Container type={type} selected={selected} {...rest}>
       <Icon name={icons[type]} type={type} />

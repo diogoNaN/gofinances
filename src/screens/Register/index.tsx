@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { Modal, StatusBar } from "react-native";
+import { useForm } from "react-hook-form";
 
 import {
   Container,
@@ -12,12 +13,19 @@ import {
 
 import { CategorySelect, Category } from "../CategorySelect";
 
-import { Input } from "../../components/Form/Input";
 import { Button } from "../../components/Form/Button";
+import { InputForm } from "../../components/Form/InputForm";
 import { CategorySelectButton } from "../../components/Form/CategorySelectButton";
 import { TransactionTypeButton } from "../../components/Form/TransactionTypeButton";
 
+type FormDataProps = {
+  name: string;
+  amount: number;
+};
+
 export const Register: React.FC = () => {
+  const { control, handleSubmit } = useForm();
+
   const [showCategoriesModal, setShowCategoriesModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [transactionType, setTransactionType] = useState<
@@ -39,6 +47,22 @@ export const Register: React.FC = () => {
     setShowCategoriesModal(false);
   }, []);
 
+  const handleRegister = useCallback(
+    (form: FormDataProps) => {
+      const { name, amount } = form;
+
+      const formData = {
+        name,
+        amount,
+        transaction_type: transactionType,
+        category: selectedCategory,
+      };
+
+      console.log(formData);
+    },
+    [transactionType, selectedCategory]
+  );
+
   return (
     <Container>
       <StatusBar animated translucent barStyle={"light-content"} />
@@ -49,9 +73,9 @@ export const Register: React.FC = () => {
 
       <Form>
         <Fields>
-          <Input placeholder="Nome" />
+          <InputForm name="name" control={control} placeholder="Nome" />
 
-          <Input placeholder="Preço" />
+          <InputForm name="amount" control={control} placeholder="Valor" />
 
           <TransactionType>
             <TransactionTypeButton
@@ -76,7 +100,7 @@ export const Register: React.FC = () => {
           />
         </Fields>
 
-        <Button title="Enviar" />
+        <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
       </Form>
 
       <Modal

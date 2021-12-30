@@ -7,7 +7,9 @@ type Props = TouchableOpacityProps & {
   title: string;
 };
 
-export const Button: React.FC<Props> = ({ title, ...rest }) => {
+export const Button: React.FC<Props> = (props) => {
+  const { title, ...rest } = props;
+
   return (
     <Container {...rest}>
       <Title>{title}</Title>

@@ -10,7 +10,9 @@ type Props = TouchableOpacityProps & {
   isSelected: boolean;
 };
 
-export const CategorySelectButton: React.FC<Props> = ({ title, isSelected, ...rest }) => {
+export const CategorySelectButton: React.FC<Props> = (props) => {
+  const { title, isSelected, ...rest } = props;
+
   return (
     <Container {...rest}>
       <Category isSelected={isSelected}>{title}</Category>

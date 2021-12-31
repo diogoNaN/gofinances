@@ -1,7 +1,7 @@
 import React from "react";
-import { TouchableOpacityProps } from "react-native";
+import { RectButtonProps } from "react-native-gesture-handler";
 
-import { Container, Icon, Title } from "./styles";
+import { Container, Button, Icon, Title } from "./styles";
 
 const icons = {
   income: "arrow-up-circle",
@@ -10,7 +10,7 @@ const icons = {
 
 export type TransactionTypes = "income" | "outcome";
 
-type Props = TouchableOpacityProps & {
+type Props = RectButtonProps & {
   type: TransactionTypes;
   title: string;
   selected: boolean;
@@ -20,9 +20,11 @@ export const TransactionTypeButton: React.FC<Props> = (props) => {
   const { type, title, selected, ...rest } = props;
 
   return (
-    <Container type={type} selected={selected} {...rest}>
-      <Icon name={icons[type]} type={type} />
-      <Title selected={selected}>{title}</Title>
+    <Container type={type} selected={selected}>
+      <Button {...rest}>
+        <Icon name={icons[type]} type={type} />
+        <Title selected={selected}>{title}</Title>
+      </Button>
     </Container>
   );
 };

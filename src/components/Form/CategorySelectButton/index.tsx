@@ -1,11 +1,11 @@
 import React from "react";
-import { TouchableOpacityProps } from "react-native";
+import { RectButtonProps } from "react-native-gesture-handler";
 
 import { Container, Icon, Category } from "./styles";
 
 export type TransactionTypes = "income" | "outcome";
 
-type Props = TouchableOpacityProps & {
+type Props = RectButtonProps & {
   title: string;
   isSelected: boolean;
 };

@@ -9,6 +9,7 @@ import {
   UserGreetings,
   UserName,
   LogoutIcon,
+  LogoutButton,
   HeaderWrapper,
   HighlightCards,
   Transactions,
@@ -83,7 +84,9 @@ export const Dashboard: React.FC = () => {
             </UserInfo>
           </UserData>
 
-          <LogoutIcon name={"power"} />
+          <LogoutButton onPress={() => {}}>
+            <LogoutIcon name={"power"} />
+          </LogoutButton>
         </HeaderWrapper>
       </Header>
 

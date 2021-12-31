@@ -1,13 +1,13 @@
 import styled from "styled-components/native";
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
+import { RectButton, RectButtonProps } from "react-native-gesture-handler";
 
 type CategoryProps = {
   isSelected: boolean;
 };
 
-export const Container = styled(TouchableOpacity).attrs<TouchableOpacityProps>({
+export const Container = styled(RectButton).attrs<RectButtonProps>({
   activeOpacity: 0.7,
 })`
   flex-direction: row;

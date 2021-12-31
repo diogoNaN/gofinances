@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components/native";
-import { TouchableOpacity } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
+import { RectButton } from "react-native-gesture-handler";
 
 import { TransactionTypes } from ".";
 
@@ -18,25 +18,20 @@ type TextProps = {
   selected: boolean;
 };
 
-export const Container = styled(TouchableOpacity)<ContainerProps>`
+export const Container = styled.View<ContainerProps>`
   width: 48%;
 
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  border-width: ${({ selected }) => (selected ? 0 : 1.5)}px;
+  border-width: 1.5px;
   border-style: solid;
   border-color: ${({ theme }) => theme.colors.text};
   border-radius: 5px;
-
-  padding: 16px 0;
 
   ${({ type, selected }) =>
     selected &&
     type === "income" &&
     css`
       background-color: ${({ theme }) => theme.colors.success_light};
+      border-color: ${({ theme }) => theme.colors.success_light};
     `}
 
   ${({ type, selected }) =>
@@ -44,7 +39,17 @@ export const Container = styled(TouchableOpacity)<ContainerProps>`
     type === "outcome" &&
     css`
       background-color: ${({ theme }) => theme.colors.attention_light};
+      border-color: ${({ theme }) => theme.colors.attention_light};
     `}
+`;
+
+export const Button = styled(RectButton)`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 5px;
+  padding: 16px 0;
 `;
 
 export const Icon = styled(Feather)<IconProps>`

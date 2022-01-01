@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   Container,
@@ -23,47 +24,68 @@ import {
   TransactionCardDataProps,
 } from "../../components/TransactionCard";
 import { StatusBar } from "react-native";
+import { collections } from "../../utils/collections";
+import { useFocusEffect } from "@react-navigation/native";
 
 export interface DataProps extends TransactionCardDataProps {
   id: string;
 }
 
 export const Dashboard: React.FC = () => {
-  const data: DataProps[] = [
-    {
-      id: String(Math.random()),
-      type: "positive",
-      title: "Desenvolvimento de site",
-      amount: "R$ 12.000,00",
-      category: {
-        name: "Vendas",
-        icon: "dollar-sign",
-      },
-      date: "10/11/2021",
-    },
-    {
-      id: String(Math.random()),
-      type: "negative",
-      title: "Hamburgueria Pizzy",
-      amount: "R$ 59,00",
-      category: {
-        name: "Alimentação",
-        icon: "coffee",
-      },
-      date: "13/11/2021",
-    },
-    {
-      id: String(Math.random()),
-      type: "negative",
-      title: "Aluguel apartamento",
-      amount: "R$ 1.200,00",
-      category: {
-        name: "Casa",
-        icon: "shopping-bag",
-      },
-      date: "14/11/2021",
-    },
-  ];
+  const [data, setData] = useState<DataProps[]>([]);
+
+  // {
+  //   id: String(Math.random()),
+  //   type: "positive",
+  //   title: "Desenvolvimento de site",
+  //   amount: "R$ 12.000,00",
+  //   category: {
+  //     name: "Vendas",
+  //     icon: "dollar-sign",
+  //   },
+  //   date: "10/11/2021",
+  // },
+
+  const loadTransactions = useCallback(async () => {
+    const { transactionsKey } = collections;
+
+    const result = await AsyncStorage.getItem(transactionsKey);
+
+    const transactions: DataProps[] = result ? JSON.parse(result) : [];
+
+    const transactionsFormatted = transactions.map((item) => {
+      const amount = Number(item.amount).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      });
+      const date = Intl.DateTimeFormat("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+      }).format(new Date(item.date));
+
+      return {
+        id: item.id,
+        name: item.name,
+        amount,
+        type: item.type,
+        category: item.category,
+        date,
+      };
+    });
+
+    setData(transactionsFormatted);
+  }, []);
+
+  useEffect(() => {
+    loadTransactions();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadTransactions();
+    }, [])
+  );
 
   return (
     <Container>

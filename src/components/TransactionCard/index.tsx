@@ -1,4 +1,6 @@
 import React from "react";
+import { ColorValue } from "react-native";
+import { categories } from "../../utils/categories";
 
 import {
   Container,
@@ -12,13 +14,15 @@ import {
 } from "./styles";
 
 interface Category {
+  key: string;
   name: string;
   icon: string;
+  color: ColorValue;
 }
 
 export interface TransactionCardDataProps {
-  type: "positive" | "negative";
-  title: string;
+  type: "income" | "outcome";
+  name: string;
   amount: string;
   category: Category;
   date: string;
@@ -28,26 +32,24 @@ interface TransactionCardProps {
   data: TransactionCardDataProps;
 }
 
-const icon = {
-  up: "arrow-up-circle",
-  down: "arrow-down-circle",
-  total: "dollar-sign",
-};
-
 export const TransactionCard: React.FC<TransactionCardProps> = (props) => {
-  const { type, title, amount, category, date } = props.data;
+  const { type, name, amount, category, date } = props.data;
+
+  const [matchedCategory] = categories.filter(
+    (item) => item.key === category.key
+  );
 
   return (
     <Container>
-      <Title>{title}</Title>
+      <Title>{name}</Title>
       <Amount type={type}>
-        {type === "negative" && "- "}
+        {type === "outcome" && "- "}
         {amount}
       </Amount>
       <Footer>
         <Category>
-          <Icon name={"dollar-sign"} />
-          <CategoryName>{category.name}</CategoryName>
+          <Icon name={matchedCategory.icon} />
+          <CategoryName>{matchedCategory.name}</CategoryName>
         </Category>
         <Date>{date}</Date>
       </Footer>

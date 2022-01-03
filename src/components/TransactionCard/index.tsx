@@ -23,9 +23,11 @@ interface Category {
 export interface TransactionCardDataProps {
   type: "income" | "outcome";
   name: string;
-  amount: string;
+  amount: number;
+  formatted_amount: string;
   category: Category;
-  date: string;
+  date: Date;
+  formatted_date: string;
 }
 
 interface TransactionCardProps {
@@ -33,7 +35,7 @@ interface TransactionCardProps {
 }
 
 export const TransactionCard: React.FC<TransactionCardProps> = (props) => {
-  const { type, name, amount, category, date } = props.data;
+  const { type, name, formatted_amount, category, formatted_date } = props.data;
 
   const [matchedCategory] = categories.filter(
     (item) => item.key === category.key
@@ -44,14 +46,14 @@ export const TransactionCard: React.FC<TransactionCardProps> = (props) => {
       <Title>{name}</Title>
       <Amount type={type}>
         {type === "outcome" && "- "}
-        {amount}
+        {formatted_amount}
       </Amount>
       <Footer>
         <Category>
           <Icon name={matchedCategory.icon} />
           <CategoryName>{matchedCategory.name}</CategoryName>
         </Category>
-        <Date>{date}</Date>
+        <Date>{formatted_date}</Date>
       </Footer>
     </Container>
   );

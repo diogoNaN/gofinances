@@ -1,11 +1,5 @@
 import React, { useCallback, useState } from "react";
-import {
-  Alert,
-  Modal,
-  Keyboard,
-  StatusBar,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { Alert, Modal, Keyboard, TouchableWithoutFeedback } from "react-native";
 import * as Yup from "yup";
 import uuid from "react-native-uuid";
 import { useForm } from "react-hook-form";
@@ -127,8 +121,6 @@ export const Register: React.FC = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Container>
-        <StatusBar animated translucent barStyle={"light-content"} />
-
         <Header>
           <Title>Cadastro</Title>
         </Header>

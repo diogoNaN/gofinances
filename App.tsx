@@ -30,7 +30,12 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <StatusBar animated translucent backgroundColor="transparent" />
+      <StatusBar
+        animated
+        translucent
+        backgroundColor="transparent"
+        style="light"
+      />
       <NavigationContainer>
         <AppRoutes />
       </NavigationContainer>

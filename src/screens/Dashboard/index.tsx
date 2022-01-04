@@ -38,7 +38,9 @@ export const Dashboard: React.FC = () => {
   const [transactions, setTransactions] = useState<TransactionProps[]>([]);
 
   const loadTransactions = useCallback(async () => {
-    const { transactionsKey } = collections;
+    const { prefix } = collections;
+
+    const transactionsKey = prefix + user.id + "transactions";
 
     const result = await AsyncStorage.getItem(transactionsKey);
 
@@ -71,10 +73,23 @@ export const Dashboard: React.FC = () => {
   }, []);
 
   const getLastTransaction = useCallback(
-    (collection: TransactionProps[], type: "income" | "outcome") => {
-      const transactionDates = collection
-        .filter((item) => item.type === type)
-        .map((item) => new Date(item.date).getTime());
+    (transactions: TransactionProps[], type: "income" | "outcome" | "all") => {
+      const filteredTransactions: TransactionProps[] = [];
+
+      if (type === "all") {
+        filteredTransactions.push(...transactions);
+      } else {
+        const filtered = transactions.filter((item) => item.type === type);
+        filteredTransactions.push(...filtered);
+      }
+
+      if (filteredTransactions.length === 0) {
+        return null;
+      }
+
+      const transactionDates = filteredTransactions.map((item) =>
+        new Date(item.date).getTime()
+      );
 
       const lastTransactionDate = Math.max.apply(Math, transactionDates);
 
@@ -108,6 +123,8 @@ export const Dashboard: React.FC = () => {
       "outcome"
     );
 
+    const lastTransaction = getLastTransaction(transactions, "all");
+
     const total = transactions
       .map((item) => item.amount)
       .reduce((acc, curr) => acc + curr, 0);
@@ -135,7 +152,9 @@ export const Dashboard: React.FC = () => {
       }),
       last_income_transaction: lastIncomeTransaction,
       last_outcome_transaction: lastOutcomeTransaction,
-      total_transaction_period: `01 à ${lastOutcomeTransaction}`,
+      total_transaction_period: lastTransaction
+        ? `01 à ${lastTransaction}`
+        : "Não há transações",
     };
   }, [transactions]);
 
@@ -177,13 +196,21 @@ export const Dashboard: React.FC = () => {
           type={"up"}
           title={"Entradas"}
           amount={highLightValues.total_incomes}
-          lastTransaction={`Última entrada dia ${highLightValues.last_income_transaction}`}
+          lastTransaction={
+            highLightValues.last_income_transaction
+              ? `Última entrada dia ${highLightValues.last_income_transaction}`
+              : "Não há transações"
+          }
         />
         <HighlightCard
           type={"down"}
           title={"Saídas"}
           amount={highLightValues.total_outcomes}
-          lastTransaction={`Última saída dia ${highLightValues.last_outcome_transaction}`}
+          lastTransaction={
+            highLightValues.last_outcome_transaction
+              ? `Última saída dia ${highLightValues.last_outcome_transaction}`
+              : "Não há transações"
+          }
         />
         <HighlightCard
           type={"total"}

@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { FlatList } from "react-native";
+import { FlatList, TextProps } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import {
   BorderlessButton,
@@ -11,7 +11,7 @@ import {
   getStatusBarHeight,
 } from "react-native-iphone-x-helper";
 
-import { DataProps } from ".";
+import { TransactionProps } from ".";
 
 export const Container = styled(GestureHandlerRootView)`
   flex: 1;
@@ -40,8 +40,10 @@ export const HeaderWrapper = styled.View`
 `;
 
 export const UserData = styled.View`
+  flex: 1;
   flex-direction: row;
   align-items: center;
+  margin-right: ${RFValue(24)}px;
 `;
 
 export const Avatar = styled.Image`
@@ -51,6 +53,7 @@ export const Avatar = styled.Image`
 `;
 
 export const UserInfo = styled.View`
+  flex: 1;
   margin-left: 16px;
 `;
 
@@ -60,7 +63,9 @@ export const UserGreetings = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
-export const UserName = styled.Text`
+export const UserName = styled.Text.attrs({
+  numberOfLines: 1,
+})`
   color: ${({ theme }) => theme.colors.shape};
   font-size: ${RFValue(18)}px;
   font-family: ${({ theme }) => theme.fonts.bold};
@@ -95,7 +100,7 @@ export const Title = styled.Text`
 `;
 
 export const TransactionList = styled(
-  FlatList as new () => FlatList<DataProps>
+  FlatList as new () => FlatList<TransactionProps>
 ).attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {

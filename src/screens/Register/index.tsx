@@ -18,6 +18,8 @@ import {
 
 import { CategorySelect, Category } from "../CategorySelect";
 
+import { useAuth } from "../../Hooks/auth";
+
 import { Button } from "../../components/Form/Button";
 import { InputForm } from "../../components/Form/InputForm";
 import { CategorySelectButton } from "../../components/Form/CategorySelectButton";
@@ -39,6 +41,7 @@ const schema = Yup.object().shape({
 });
 
 export const Register: React.FC = () => {
+  const { user } = useAuth();
   const { navigate } = useNavigation();
   const {
     control,
@@ -92,7 +95,9 @@ export const Register: React.FC = () => {
       };
 
       try {
-        const { transactionsKey } = collections;
+        const { prefix } = collections;
+
+        const transactionsKey = prefix + user.id + "transactions";
 
         const data = await AsyncStorage.getItem(transactionsKey);
 
@@ -115,7 +120,7 @@ export const Register: React.FC = () => {
         Alert.alert("Ops", "Não foi possível salvar");
       }
     },
-    [transactionType, selectedCategory]
+    [transactionType, selectedCategory, user]
   );
 
   return (

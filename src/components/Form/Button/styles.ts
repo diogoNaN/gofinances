@@ -1,8 +1,8 @@
 import styled from "styled-components/native";
-import { RectButton, RectButtonProps } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
+import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
-export const Container = styled(RectButton).attrs<RectButtonProps>({
+export const Container = styled(TouchableOpacity).attrs<TouchableOpacityProps>({
   activeOpacity: 0.7,
 })`
   width: 100%;

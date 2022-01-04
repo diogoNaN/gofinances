@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components/native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
-import { RectButton } from "react-native-gesture-handler";
+import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 import { TransactionTypes } from ".";
 
@@ -43,7 +43,9 @@ export const Container = styled.View<ContainerProps>`
     `}
 `;
 
-export const Button = styled(RectButton)`
+export const Button = styled(TouchableOpacity).attrs<TouchableOpacityProps>({
+  activeOpacity: 0.7,
+})`
   flex-direction: row;
   align-items: center;
   justify-content: center;

@@ -46,7 +46,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User>({} as User);
 
-  const { userKey } = collections;
+  const {
+    keys: { userKey },
+  } = collections;
 
   const signInWithGoogle = async () => {
     try {

@@ -33,6 +33,7 @@ import { TransactionCardDataProps } from "../../components/TransactionCard";
 
 import { collections } from "../../utils/collections";
 import { categories } from "../../utils/categories";
+import { useAuth } from "../../Hooks/auth";
 
 type TransactionProps = TransactionCardDataProps & {
   id: string;
@@ -50,6 +51,7 @@ type TotalByCategoryProps = {
 };
 
 export const Resume: React.FC = () => {
+  const { user } = useAuth();
   const { colors } = useTheme();
 
   const [loading, setIsLoading] = useState(false);
@@ -61,7 +63,9 @@ export const Resume: React.FC = () => {
   const loadTransactions = useCallback(async () => {
     setIsLoading(true);
 
-    const { transactionsKey } = collections;
+    const { prefix } = collections;
+
+    const transactionsKey = prefix + user.id + "transactions";
 
     const result = await AsyncStorage.getItem(transactionsKey);
 
@@ -112,7 +116,7 @@ export const Resume: React.FC = () => {
 
     setTotalByCategories(totalByCategories);
     setIsLoading(false);
-  }, [selectedMonth]);
+  }, [selectedMonth, user]);
 
   const handleMonthChange = useCallback((action: "prev" | "next") => {
     switch (action) {

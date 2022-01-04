@@ -3,6 +3,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import { SignIn } from "../screens/SignIn";
 
+export type AuthRoutesParamList = {
+  SignIn: undefined;
+};
+
 const { Navigator, Screen } = createStackNavigator();
 
 export const AuthRoutes: React.FC = () => {

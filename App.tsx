@@ -14,17 +14,19 @@ import {
 
 import theme from "./src/global/styles/theme";
 
-import { NavigationContainer } from "@react-navigation/native";
-import { AppRoutes } from "./src/routes/app.routes";
+import { AuthProvider, useAuth } from "./src/Hooks/auth";
+
+import { Routes } from "./src/routes";
 
 export default function App() {
+  const { userIsLoading } = useAuth();
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
     Poppins_700Bold,
   });
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || userIsLoading) {
     return <AppLoading />;
   }
 
@@ -36,9 +38,9 @@ export default function App() {
         backgroundColor="transparent"
         style="light"
       />
-      <NavigationContainer>
-        <AppRoutes />
-      </NavigationContainer>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

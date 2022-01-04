@@ -7,5 +7,6 @@ const data = {
 const mainPrefix = data.prefix + data.app_name + data.separator;
 
 export const collections = {
+  userKey: mainPrefix + "user",
   transactionsKey: mainPrefix + "transactions",
 };

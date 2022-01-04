@@ -27,12 +27,14 @@ import {
   TransactionCardDataProps,
 } from "../../components/TransactionCard";
 import { collections } from "../../utils/collections";
+import { useAuth } from "../../Hooks/auth";
 
 export interface TransactionProps extends TransactionCardDataProps {
   id: string;
 }
 
 export const Dashboard: React.FC = () => {
+  const { user, signOut } = useAuth();
   const [transactions, setTransactions] = useState<TransactionProps[]>([]);
 
   const loadTransactions = useCallback(async () => {
@@ -154,17 +156,17 @@ export const Dashboard: React.FC = () => {
           <UserData>
             <Avatar
               source={{
-                uri: "https://avatars.githubusercontent.com/u/61014068?v=4",
+                uri: user.photo,
               }}
             />
 
             <UserInfo>
               <UserGreetings>Olá, </UserGreetings>
-              <UserName>Diogo</UserName>
+              <UserName>{user.name}</UserName>
             </UserInfo>
           </UserData>
 
-          <LogoutButton onPress={() => {}}>
+          <LogoutButton onPress={signOut}>
             <LogoutIcon name={"power"} />
           </LogoutButton>
         </HeaderWrapper>

@@ -4,6 +4,7 @@ import { renderHook, act } from "@testing-library/react-hooks";
 import { mocked } from "ts-jest/utils";
 import { startAsync } from "expo-auth-session";
 import fetchMock from "jest-fetch-mock";
+import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AuthProvider, useAuth } from "./auth";
 
@@ -45,6 +46,10 @@ describe("Hook: Auth", () => {
     expect(result.current.user.photo).toEqual("any_photo.png");
   });
 
+  beforeEach(async () => {
+    await AsyncStorage.default.removeItem("@gofinances:user");
+  });
+
   it("user should not connect if cancel authentication with Google", async () => {
     const googleMocked = mocked(startAsync as any);
 
@@ -53,12 +58,26 @@ describe("Hook: Auth", () => {
       type: "cancel",
     });
 
+    const { result, waitForNextUpdate } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider,
+    });
+
+    await waitForNextUpdate();
+
+    await act(() => result.current.signInWithGoogle());
+
+    expect(result.current.user).not.toHaveProperty("id");
+  });
+
+  it("should be able to return error with incorrect Google parameters", async () => {
     const { result } = renderHook(() => useAuth(), {
       wrapper: AuthProvider,
     });
 
-    await act(() => result.current.signInWithGoogle());
-
-    expect(result.current.user.id).not.toHaveProperty("id");
+    try {
+      await act(() => result.current.signInWithGoogle());
+    } catch {
+      expect(result.current.user).not.toHaveProperty("id");
+    }
   });
 });

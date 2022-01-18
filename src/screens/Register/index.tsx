@@ -42,7 +42,7 @@ const schema = Yup.object().shape({
 
 export const Register: React.FC = () => {
   const { user } = useAuth();
-  const { navigate } = useNavigation();
+  // const { navigate } = useNavigation();
   const {
     control,
     handleSubmit,
@@ -114,7 +114,7 @@ export const Register: React.FC = () => {
         setTransactionType(null);
         setSelectedCategory(null);
 
-        navigate("Listagem");
+        // navigate("Listagem");
       } catch (error) {
         console.log(error);
         Alert.alert("Ops", "Não foi possível salvar");
@@ -166,6 +166,7 @@ export const Register: React.FC = () => {
             </TransactionType>
 
             <CategorySelectButton
+              testID="buttom-category_select"
               isSelected={!!selectedCategory}
               title={selectedCategory ? selectedCategory.name : "Categoria"}
               onPress={handleOpenCategoriesModal}
@@ -176,6 +177,7 @@ export const Register: React.FC = () => {
         </Form>
 
         <Modal
+          testID="modal-category"
           statusBarTranslucent
           visible={showCategoriesModal}
           animationType="slide"
